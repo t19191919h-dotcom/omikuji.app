@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>管理者ページ</title>
+</head>
+<body>
+  <h1>🔑 管理者ページ</h1>
+  <p>パスワードを入力してコメント一覧を表示します。</p>
+
+  <input type="password" id="passwordInput" placeholder="パスワード">
+  <button id="loadBtn">コメントを読み込む</button>
+
+  <ul id="commentList"></ul>
+
+  <script>
+    const passwordInput = document.getElementById("passwordInput");
+    const loadBtn = document.getElementById("loadBtn");
+    const commentList = document.getElementById("commentList");
+
+    loadBtn.addEventListener("click", () => {
+      const password = passwordInput.value.trim();
+      fetch("/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("認証失敗");
+        return res.json();
+      })
+      .then(comments => {
+        commentList.innerHTML = "";
+        comments.forEach(c => {
+          const li = document.createElement("li");
+          li.textContent = `${c.date}: ${c.text}`;
+          commentList.appendChild(li);
+        });
+      })
+      .catch(err => {
+        alert("パスワードが間違っています");
+      });
+    });
+  </script>
+</body>
+</html>

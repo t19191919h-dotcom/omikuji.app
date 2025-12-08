@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ウェルみくじ</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 30px; }
+    #description { font-size: 1.1em; color: #444; margin-bottom: 20px; }
+    #result { font-size: 1.5em; margin: 20px; }
+    #advice { font-size: 1.2em; color: #555; margin: 10px; }
+    input, button { margin: 5px; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🎲 ウェルみくじ 🎲</h1>
+  <div id="description">
+    このおみくじは1日1回だけ引けます。<br>
+    今日の運勢とアドバイスを楽しんでください！<br>
+    コメントは送信できますが、表示されるのは管理者ページだけです。
+  </div>
+
+  <!-- おみくじボタン -->
+  <button id="drawBtn">おみくじを引く</button>
+  <div id="result"></div>
+  <div id="advice"></div>
+
+  <!-- コメント送信欄 -->
+  <h2>💬 コメント送信</h2>
+  <input type="text" id="commentInput" placeholder="コメントを入力">
+  <button id="commentBtn">送信</button>
+
+  <script>
+    // おみくじの内容
+    const fortunes = [
+      { fortune: "大吉", advice: "今日は積極的に行動すると良い結果が得られます！" },
+      { fortune: "中吉", advice: "周囲との協力を大切にすると運が開けます。" },
+      { fortune: "小吉", advice: "小さな幸せに目を向けると心が満たされます。" },
+      { fortune: "吉", advice: "焦らず一歩ずつ進めば成果につながります。" },
+      { fortune: "凶", advice: "無理をせず休むことが大切。慎重に過ごしましょう。" }
+    ];
+
+    const resultDiv = document.getElementById("result");
+    const adviceDiv = document.getElementById("advice");
+    const drawBtn = document.getElementById("drawBtn");
+
+    // 今日の日付を取得
+    function getToday() {
+      const d = new Date();
+      return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+    }
+
+    // おみくじボタンの処理
+    drawBtn.addEventListener("click", () => {
+      const today = getToday();
+      const lastDraw = localStorage.getItem("lastDrawDate");
+
+      if (lastDraw === today) {
+        resultDiv.textContent = "今日はもう引いたよ！";
+        adviceDiv.textContent = "";
+      } else {
+        const choice = fortunes[Math.floor(Math.random() * fortunes.length)];
+        resultDiv.textContent = "あなたの運勢は…「" + choice.fortune + "」です！";
+        adviceDiv.textContent = "💡 アドバイス: " + choice.advice;
+        localStorage.setItem("lastDrawDate", today);
+      }
+    });
+
+    // コメント送信処理（表示はしない）
+    const commentInput = document.getElementById("commentInput");
+    const commentBtn = document.getElementById("commentBtn");
+
+    commentBtn.addEventListener("click", () => {
+      const text = commentInput.value.trim();
+      if (text) {
+        fetch("/comment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        }).then(res => {
+          if (res.ok) {
+            alert("コメントが送信されました！"); // ユーザーには送信完了だけ知らせる
+            commentInput.value = "";
+          } else {
+            alert("送信に失敗しました");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
