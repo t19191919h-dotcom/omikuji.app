@@ -8,6 +8,7 @@
     #description { font-size: 1.1em; color: #444; margin-bottom: 20px; }
     #result { font-size: 1.5em; margin: 20px; }
     #advice { font-size: 1.2em; color: #555; margin: 10px; }
+    #luckyItem, #luckyColor { font-size: 1.2em; margin: 8px; color: #444; }
     input, button { margin: 5px; padding: 8px; }
   </style>
 </head>
@@ -24,6 +25,8 @@
   <button id="drawBtn">おみくじを引く</button>
   <div id="result"></div>
   <div id="advice"></div>
+  <div id="luckyItem"></div>
+  <div id="luckyColor"></div>
 
   <!-- コメント送信欄 -->
   <h2>💬 コメント送信</h2>
@@ -66,8 +69,30 @@
       { fortune: "凶", advice: "１回立ち止まって周りの景色を見てみよう。" }
     ];
 
+    // ラッキーアイテム
+    const luckyItems = [
+      "お気に入りのペン",
+      "あったかい飲み物",
+      "青い小物",
+      "ハンカチ",
+      "スマホスタンド",
+      "お気に入りのアクセサリー",
+      "メモ帳",
+      "イヤホン",
+      "腕時計",
+      "香りの良いハンドクリーム"
+    ];
+
+    // ラッキーカラー
+    const luckyColors = [
+      "赤", "青", "黄色", "緑", "白",
+      "黒", "ピンク", "紫", "オレンジ", "水色"
+    ];
+
     const resultDiv = document.getElementById("result");
     const adviceDiv = document.getElementById("advice");
+    const luckyItemDiv = document.getElementById("luckyItem");
+    const luckyColorDiv = document.getElementById("luckyColor");
     const drawBtn = document.getElementById("drawBtn");
 
     // 今日の日付を取得
@@ -84,10 +109,18 @@
       if (lastDraw === today) {
         resultDiv.textContent = "今日はもう引いたよ！";
         adviceDiv.textContent = "";
+        luckyItemDiv.textContent = "";
+        luckyColorDiv.textContent = "";
       } else {
         const choice = fortunes[Math.floor(Math.random() * fortunes.length)];
+        const item = luckyItems[Math.floor(Math.random() * luckyItems.length)];
+        const color = luckyColors[Math.floor(Math.random() * luckyColors.length)];
+
         resultDiv.textContent = "あなたの運勢は…「" + choice.fortune + "」です！";
         adviceDiv.textContent = "💡 アドバイス: " + choice.advice;
+        luckyItemDiv.textContent = "🎁 ラッキーアイテム: " + item;
+        luckyColorDiv.textContent = "🎨 ラッキーカラー: " + color;
+
         localStorage.setItem("lastDrawDate", today);
       }
     });
@@ -105,7 +138,7 @@
           body: JSON.stringify({ text })
         }).then(res => {
           if (res.ok) {
-            alert("コメントが送信されました！"); // ユーザーには送信完了だけ知らせる
+            alert("コメントが送信されました！");
             commentInput.value = "";
           } else {
             alert("送信に失敗しました");
@@ -115,13 +148,4 @@
     });
   </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
