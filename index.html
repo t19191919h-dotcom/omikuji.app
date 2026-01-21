@@ -17,46 +17,59 @@
     }
 
     #description {
-      font-size: 1.1em;
+      font-size: 1.2em;
       color: #444;
       margin-bottom: 20px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     #result {
-      font-size: 1.6em;
+      font-size: 1.8em;
       margin: 20px;
     }
 
     #advice, #luckyItem, #luckyColor {
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: #555;
-      margin: 10px;
-      line-height: 1.6;
+      margin: 12px;
+      line-height: 1.7;
     }
 
-    input, button {
-      margin: 5px;
-      padding: 12px 20px;
-      font-size: 1.1em;
+    /* 入力欄を大きくしてスマホで見やすく */
+    input[type="text"] {
+      width: 100%;
+      font-size: 1.4em;
+      padding: 16px 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     button {
+      margin: 8px;
+      padding: 14px 22px;
+      font-size: 1.3em;
       cursor: pointer;
+      border-radius: 8px;
     }
 
     @media (max-width: 480px) {
       body {
-        font-size: 1.1em;
+        font-size: 1.15em;
       }
 
       button {
         width: 100%;
-        font-size: 1.2em;
+        font-size: 1.35em;
       }
 
       #result {
-        font-size: 1.4em;
+        font-size: 1.6em;
+      }
+
+      input[type="text"] {
+        font-size: 1.5em;
+        padding: 18px 20px;
       }
     }
   </style>
@@ -72,7 +85,6 @@
     送信したコメントが表示されるのは管理者ページだけです。
   </div>
 
-  <!-- おみくじボタン -->
   <button id="drawBtn">おみくじを引く</button>
 
   <div id="result"></div>
@@ -80,13 +92,11 @@
   <div id="luckyItem"></div>
   <div id="luckyColor"></div>
 
-  <!-- コメント送信欄 -->
   <h2>💬 コメント送信</h2>
   <input type="text" id="commentInput" placeholder="コメントを入力">
   <button id="commentBtn">送信</button>
 
   <script>
-    // おみくじの内容
     const fortunes = [
       { fortune: "大吉", advice: "今日は何もかもうまくいく気がする。今日を楽しもう！" },
       { fortune: "大吉", advice: "新しい挑戦が最高の結果をもたらす日。思い切って一歩踏み出してみよう" },
@@ -127,19 +137,14 @@
       { fortune: "凶", advice: "１回立ち止まって周りの景色を見てみよう。" }
     ];
 
-    // ラッキーアイテム
     const luckyItems = [
-      "ボールペン", "あったかい飲み物", "青い小物", "ハンカチ",
-      "スマホスタンド", "お気に入りのアクセサリー", "メモ帳",
-      "イヤホン", "腕時計", "ポケットティッシュ", "クリップ",
-      "緑茶", "ヨーグルト", "ハンドクリーム"
+      "ボールペン","あったかい飲み物","青い小物","ハンカチ",
+      "スマホスタンド","お気に入りのアクセサリー","メモ帳",
+      "イヤホン","腕時計","ポケットティッシュ","クリップ",
+      "緑茶","ヨーグルト","ハンドクリーム"
     ];
 
-    // ラッキーカラー
-    const luckyColors = [
-      "赤", "青", "黄色", "緑", "白",
-      "黒", "ピンク", "紫", "オレンジ", "水色"
-    ];
+    const luckyColors = ["赤","青","黄色","緑","白","黒","ピンク","紫","オレンジ","水色"];
 
     const resultDiv = document.getElementById("result");
     const adviceDiv = document.getElementById("advice");
@@ -147,13 +152,11 @@
     const luckyColorDiv = document.getElementById("luckyColor");
     const drawBtn = document.getElementById("drawBtn");
 
-    // 今日の日付を取得
     function getToday() {
       const d = new Date();
-      return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
     }
 
-    // おみくじボタンの処理
     drawBtn.addEventListener("click", () => {
       const today = getToday();
       const lastDraw = localStorage.getItem("lastDrawDate");
@@ -177,7 +180,6 @@
       }
     });
 
-    // コメント送信処理
     const commentInput = document.getElementById("commentInput");
     const commentBtn = document.getElementById("commentBtn");
 
