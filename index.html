@@ -2,18 +2,69 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ウェルみくじ</title>
+
   <style>
-    body { font-family: sans-serif; text-align: center; margin-top: 30px; }
-    #description { font-size: 1.1em; color: #444; margin-bottom: 20px; }
-    #result { font-size: 1.5em; margin: 20px; }
-    #advice { font-size: 1.2em; color: #555; margin: 10px; }
-    #luckyItem, #luckyColor { font-size: 1.2em; margin: 8px; color: #444; }
-    input, button { margin: 5px; padding: 8px; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+      padding: 0 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #description {
+      font-size: 1.1em;
+      color: #444;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    #result {
+      font-size: 1.6em;
+      margin: 20px;
+    }
+
+    #advice, #luckyItem, #luckyColor {
+      font-size: 1.2em;
+      color: #555;
+      margin: 10px;
+      line-height: 1.6;
+    }
+
+    input, button {
+      margin: 5px;
+      padding: 12px 20px;
+      font-size: 1.1em;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 1.1em;
+      }
+
+      button {
+        width: 100%;
+        font-size: 1.2em;
+      }
+
+      #result {
+        font-size: 1.4em;
+      }
+    }
   </style>
 </head>
+
 <body>
   <h1>🎲 ウェルみくじ 🎲</h1>
+
   <div id="description">
     このおみくじは1日1回だけ引けます。<br>
     今日の運勢とアドバイスを楽しんでください！<br>
@@ -23,6 +74,7 @@
 
   <!-- おみくじボタン -->
   <button id="drawBtn">おみくじを引く</button>
+
   <div id="result"></div>
   <div id="advice"></div>
   <div id="luckyItem"></div>
@@ -77,20 +129,10 @@
 
     // ラッキーアイテム
     const luckyItems = [
-      "ボールペン",
-      "あったかい飲み物",
-      "青い小物",
-      "ハンカチ",
-      "スマホスタンド",
-      "お気に入りのアクセサリー",
-      "メモ帳",
-      "イヤホン",
-      "腕時計",
-      "ポケットティッシュ",
-      "クリップ",
-      "緑茶",
-      "ヨーグルト",
-      "ハンドクリーム"
+      "ボールペン", "あったかい飲み物", "青い小物", "ハンカチ",
+      "スマホスタンド", "お気に入りのアクセサリー", "メモ帳",
+      "イヤホン", "腕時計", "ポケットティッシュ", "クリップ",
+      "緑茶", "ヨーグルト", "ハンドクリーム"
     ];
 
     // ラッキーカラー
@@ -108,7 +150,7 @@
     // 今日の日付を取得
     function getToday() {
       const d = new Date();
-      return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+      return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
     }
 
     // おみくじボタンの処理
@@ -135,7 +177,7 @@
       }
     });
 
-    // コメント送信処理（表示はしない）
+    // コメント送信処理
     const commentInput = document.getElementById("commentInput");
     const commentBtn = document.getElementById("commentBtn");
 
@@ -159,6 +201,3 @@
   </script>
 </body>
 </html>
-
-
-
